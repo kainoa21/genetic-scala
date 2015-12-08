@@ -101,4 +101,8 @@ package object tsp {
   implicit def randomSelector[T <: Gene]: Selector[T] = new Selector[T] {
     def select(pop: Array[Chromosome[T]]): Chromosome[T] = pop(randInt(pop.length - 1))
   }
+
+  // TSP ordering - minimum fitness is best.
+  implicit def tspOrdering[T <: Gene](implicit f: Fitness[T]): Ordering[Chromosome[T]] =
+    Ordering.by((_: Chromosome[T]).fitness)
 }

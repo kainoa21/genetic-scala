@@ -14,7 +14,7 @@ object TSP extends App {
   def iterate(generation: Int = 1, bestFitness: Double = Double.MaxValue): Unit =
     if (generation <= maxGenerations) {
       evolve(pop, offspring)
-      val currentBest = pop.minByFitness
+      val currentBest = pop.min
       val currentFitness = currentBest.fitness
       if (currentFitness < bestFitness) {
         print(s"Best fitness found = $currentFitness at generation $generation\n")
