@@ -20,6 +20,6 @@ scalacOptions ++= Seq(
 
 mainClass in Global := Some("zdavep.tsp.TSP")
 
-assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
+assemblyJarName in assembly := s"genetic-scala-${version.value}.jar"
 
 addCommandAlias("dist", ";clean;compile;scalastyle;assembly")
