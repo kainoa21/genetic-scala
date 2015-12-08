@@ -20,6 +20,9 @@ package object tsp {
   // TSP mutation rate
   private final val MUTATE_RATE = 0.1D
 
+  // Choose a random integer within a given range
+  private def randInt(h: Int, l: Int = 0) = math.floor(nextDouble * (h - l)).toInt + l
+
   // Great circle distance function (assumes earth is a sphere)
   def distance(c1: City, c2: City): Double = {
     val p1 = c1.lat * PI_RADS_PER_180_DEG
@@ -73,9 +76,6 @@ package object tsp {
       calculate(c.genes.head, c.genes.tail, distance(c.genes.last, c.genes.head))
   }
 
-  // Choose a random integer within a given range
-  private def randInt(h: Int, l: Int = 0) = math.floor(nextDouble * (h - l + 1)).toInt + l
-
   // TSP crossover - split two chromosomes at a single index and cross combine
   implicit def singlePointXover[T <: Gene]: Xover[T] = new Xover[T] {
     def crossover(p0: Chromosome[T], p1: Chromosome[T]): Array[Chromosome[T]] =
@@ -99,7 +99,7 @@ package object tsp {
 
   // TSP selection - select a chromosome at random
   implicit def randomSelector[T <: Gene]: Selector[T] = new Selector[T] {
-    def select(pop: Array[Chromosome[T]]): Chromosome[T] = pop(randInt(pop.length - 1))
+    def select(pop: Array[Chromosome[T]]): Chromosome[T] = pop(randInt(pop.length))
   }
 
   // TSP ordering - minimum fitness is best.
