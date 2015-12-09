@@ -10,7 +10,7 @@ object Genetic {
    */
   def initPopulation[T <: Gene](initSize: Int, size: Int)(implicit
       g: Genotype[T], f: Fitness[T]): Array[Chromosome[T]] =
-    (1 to initSize).map(_ => g.randomChromosome).sortBy(_.fitness).take(size).toArray
+    (1 to initSize).map(_ => g.random).sortBy(_.fitness).take(size).toArray
 
   /**
    * Evolve a population for a single generation.

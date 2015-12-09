@@ -56,7 +56,7 @@ package object tsp {
       City(name.trim, lat.toDouble, lon.toDouble)
     }
 
-    override def randomChromosome: Chromosome[City] = shuffle(genePool.map(_.copy)) match {
+    def random: Chromosome[City] = shuffle(genePool.map(_.copy)) match {
       case h :: t => nearestNeighbor(h, t, Nil)
       case Nil => Chromosome(genePool)
     }
@@ -69,7 +69,7 @@ package object tsp {
       case h :: t => calculate(h, t, dist + distance(city, h))
       case Nil => dist
     }
-    override def fitness(c: Chromosome[City]): Double =
+    def fitness(c: Chromosome[City]): Double =
       calculate(c.genes.head, c.genes.tail, distance(c.genes.last, c.genes.head))
   }
 
