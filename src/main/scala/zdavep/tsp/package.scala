@@ -46,13 +46,10 @@ package object tsp {
     }
 
   // TSP genotype - represents the search space of possible tours (lists of cities)
-  implicit def tspGenotype: Genotype[City] = new Genotype[City] {
-    import scala.io.Source.fromFile
+  implicit def tspGenotype(implicit r: TspFileReader): Genotype[City] = new Genotype[City] {
     import scala.util.Random.shuffle
 
-    private val genePool = readFile("cities.tsp")
-
-    private def readFile(file: String): List[City] = fromFile(file).getLines().map(parseCity).toList
+    private val genePool = r.readLines.map(parseCity)
 
     private def parseCity(line: String): City = {
       val Array(name, lat, lon) = line.split("\\s")
