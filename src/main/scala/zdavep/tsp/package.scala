@@ -77,8 +77,8 @@ package object tsp {
   }
 
   // TSP crossover - split two chromosomes at a single index and cross combine
-  implicit def singlePointXover[T <: Gene]: Xover[T] = new Xover[T] {
-    def crossover(p0: Chromosome[T], p1: Chromosome[T]): Array[Chromosome[T]] =
+  implicit def tspXover: Xover[City] = new Xover[City] {
+    def crossover(p0: Chromosome[City], p1: Chromosome[City]): Array[Chromosome[City]] =
       if (nextDouble > XOVER_RATE) Array() else {
         val len = p0.genes.length
         val c0 = p0.genes.splitAt(randInt(len * 2 / 3, len / 3))._1
@@ -88,8 +88,8 @@ package object tsp {
   }
 
   // TSP mutation - reverse an internal slice of a tour
-  implicit def reverseMutator[T <: Gene]: Mutate[T] = new Mutate[T] {
-    def mutate(c: Chromosome[T]): Chromosome[T] = if (nextDouble > MUTATE_RATE) c else {
+  implicit def tspMutate: Mutate[City] = new Mutate[City] {
+    def mutate(c: Chromosome[City]): Chromosome[City] = if (nextDouble > MUTATE_RATE) c else {
       val l1 = c.genes.length
       val l2 = l1 / 2
       val (i1, i2) = (randInt(l2), randInt(l1, l2))
@@ -98,11 +98,11 @@ package object tsp {
   }
 
   // TSP selection - select a chromosome at random
-  implicit def randomSelector[T <: Gene]: Selector[T] = new Selector[T] {
-    def select(pop: Array[Chromosome[T]]): Chromosome[T] = pop(randInt(pop.length))
+  implicit def tspSelector: Selector[City] = new Selector[City] {
+    def select(pop: Array[Chromosome[City]]): Chromosome[City] = pop(randInt(pop.length))
   }
 
   // TSP ordering - minimum fitness is best.
-  implicit def tspOrdering[T <: Gene](implicit f: Fitness[T]): Ordering[Chromosome[T]] =
-    Ordering.by((_: Chromosome[T]).fitness)
+  implicit def tspOrdering(implicit f: Fitness[City]): Ordering[Chromosome[City]] =
+    Ordering.by((c: Chromosome[City]) => f.fitness(c))
 }
