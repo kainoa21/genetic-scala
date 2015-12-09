@@ -18,7 +18,7 @@ object Genetic {
   def evolve[T <: Gene](pop: Array[Chromosome[T]], offspring: Int)(implicit
     s: Selector[T], f: Fitness[T], x: Xover[T], m: Mutate[T]): Unit =
       (1 to offspring).foreach { _ =>
-        val (p1, p2) = s.selectTwo(pop)
+        val (p1, p2) = (s.select(pop), s.select(pop))
         x.crossover(p1, p2).foreach { child =>
           val mutated = m.mutate(child)
           val i = scala.util.Random.nextInt(pop.length)
