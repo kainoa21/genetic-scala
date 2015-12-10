@@ -20,7 +20,7 @@ object Genetic {
       (1 to n).foreach { _ =>
         x.crossover(s.select(pop), s.select(pop)).map(m.mutate).foreach { child =>
           val i = scala.util.Random.nextInt(pop.length)
-          if (child.fitness < pop(i).fitness) {
+          if (child.isMoreFit(pop(i))) {
             pop(i) = child
           }
         }

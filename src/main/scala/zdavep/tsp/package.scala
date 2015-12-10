@@ -64,13 +64,17 @@ package object tsp {
 
   // TSP fitness - uses the great circle distance function to calculate the length of a tour
   implicit def tspFitness: Fitness[City] = new Fitness[City] {
+
     @tailrec
     final def calculate(city: City, cities: List[City], dist: Double): Double = cities match {
       case h :: t => calculate(h, t, dist + distance(city, h))
       case Nil => dist
     }
+
     def fitness(c: Chromosome[City]): Double =
       calculate(c.genes.head, c.genes.tail, distance(c.genes.last, c.genes.head))
+
+    def isMoreFit(a: Chromosome[City], b: Chromosome[City]): Boolean = fitness(a) < fitness(b)
   }
 
   // TSP crossover - split two chromosomes at a single index and cross combine

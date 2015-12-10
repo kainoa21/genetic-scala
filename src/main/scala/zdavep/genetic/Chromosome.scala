@@ -17,5 +17,6 @@ case class Chromosome[T <: Gene](genes: List[T]) {
 object Chromosome {
   implicit class CrossoverOps[T <: Gene](val c: Chromosome[T]) extends AnyVal {
     def fitness(implicit f: Fitness[T]): Double = f.fitness(c)
+    def isMoreFit(c1: Chromosome[T])(implicit f: Fitness[T]): Boolean = f.isMoreFit(c, c1)
   }
 }
