@@ -8,6 +8,9 @@ package object tsp {
   import scala.util.Random.nextDouble
   import zdavep.genetic._
 
+  // Empty array
+  private final val NO_XOVER = Array.empty[Chromosome[City]]
+
   // The radius of earth in miles
   private final val RADIUS_EARTH = 3958.761
 
@@ -63,7 +66,7 @@ package object tsp {
   }
 
   // TSP fitness - uses the great circle distance function to calculate the length of a tour
-  implicit def tspFitness: Fitness[City] = new Fitness[City] {
+  implicit val tspFitness: Fitness[City] = new Fitness[City] {
 
     @tailrec
     final def calculate(city: City, cities: List[City], dist: Double): Double = cities match {
@@ -78,9 +81,9 @@ package object tsp {
   }
 
   // TSP crossover - split two chromosomes at a single index and cross combine
-  implicit def tspXover: Xover[City] = new Xover[City] {
+  implicit val tspXover: Xover[City] = new Xover[City] {
     def crossover(p0: Chromosome[City], p1: Chromosome[City]): Array[Chromosome[City]] =
-      if (nextDouble > XOVER_RATE) Array() else {
+      if (nextDouble > XOVER_RATE) NO_XOVER else {
         val len = p0.genes.length
         val c0 = p0.genes.splitAt(randInt(len * 2 / 3, len / 3))._1
         val c1 = p1.genes diff c0
@@ -89,7 +92,7 @@ package object tsp {
   }
 
   // TSP mutation - reverse an internal slice of a tour
-  implicit def tspMutate: Mutate[City] = new Mutate[City] {
+  implicit val tspMutate: Mutate[City] = new Mutate[City] {
     def mutate(c: Chromosome[City]): Chromosome[City] = if (nextDouble > MUTATE_RATE) c else {
       val l1 = c.genes.length
       val l2 = l1 / 2
@@ -99,7 +102,7 @@ package object tsp {
   }
 
   // TSP selection - select a chromosome at random
-  implicit def tspSelector: Selector[City] = new Selector[City] {
+  implicit val tspSelector: Selector[City] = new Selector[City] {
     def select(pop: Array[Chromosome[City]]): Chromosome[City] = pop(randInt(pop.length))
   }
 

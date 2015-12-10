@@ -1,7 +1,7 @@
 package zdavep
 package tsp
 
-object TSP extends App {
+object Main extends App {
   import genetic._, Genetic._
 
   implicit val tspFileReader = new TspFileReader {

@@ -1,4 +1,4 @@
-name := "genetic-scala-2"
+name := "genetic-scala"
 version := "current"
 scalaVersion := "2.11.7"
 
@@ -18,7 +18,7 @@ scalacOptions ++= Seq(
   "-Ywarn-value-discard"
 )
 
-mainClass in Global := Some("zdavep.tsp.TSP")
+mainClass in Global := Some("zdavep.tsp.Main")
 
 assemblyJarName in assembly := s"tsp.jar"
 
