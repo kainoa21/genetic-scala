@@ -8,9 +8,6 @@ package object tsp {
   import scala.util.Random.nextDouble
   import zdavep.genetic._
 
-  // Empty array
-  private final val NO_XOVER = Array.empty[Chromosome[City]]
-
   // The radius of earth in miles
   private final val RADIUS_EARTH = 3958.761
 
@@ -52,9 +49,7 @@ package object tsp {
   implicit def tspGenotype(implicit r: TspFileReader): Genotype[City] = new Genotype[City] {
     import scala.util.Random.shuffle
 
-    private val genePool = r.readLines.map(parseCity)
-
-    private def parseCity(line: String): City = {
+    private val genePool = r.readLines.map { line =>
       val Array(name, lat, lon) = line.split("\\s")
       City(name.trim, lat.toDouble, lon.toDouble)
     }
@@ -67,23 +62,18 @@ package object tsp {
 
   // TSP fitness - uses the great circle distance function to calculate the length of a tour
   implicit val tspFitness: Fitness[City] = new Fitness[City] {
-
-    @tailrec
-    final def calculate(city: City, cities: List[City], dist: Double): Double = cities match {
-      case h :: t => calculate(h, t, dist + distance(city, h))
-      case Nil => dist
+    @tailrec private def calc(cities: List[City], acc: Double): Double = cities match {
+      case h :: t => if (t.isEmpty) acc else calc(t, acc + distance(h, t.head))
+      case Nil => acc
     }
-
-    def fitness(c: Chromosome[City]): Double =
-      calculate(c.genes.head, c.genes.tail, distance(c.genes.last, c.genes.head))
-
+    def fitness(c: Chromosome[City]): Double = calc(c.genes, distance(c.genes.last, c.genes.head))
     def isMoreFit(a: Chromosome[City], b: Chromosome[City]): Boolean = fitness(a) < fitness(b)
   }
 
   // TSP crossover - split two chromosomes at a single index and cross combine
   implicit val tspXover: Xover[City] = new Xover[City] {
     def crossover(p0: Chromosome[City], p1: Chromosome[City]): Array[Chromosome[City]] =
-      if (nextDouble > XOVER_RATE) NO_XOVER else {
+      if (nextDouble > XOVER_RATE) Array.empty[Chromosome[City]] else {
         val len = p0.genes.length
         val c0 = p0.genes.splitAt(randInt(len * 2 / 3, len / 3))._1
         val c1 = p1.genes diff c0

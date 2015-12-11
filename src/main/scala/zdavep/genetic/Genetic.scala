@@ -15,7 +15,7 @@ object Genetic {
   /**
    * Evolve a population for a single generation.
    */
-  def evolve[T <: Gene](pop: Array[Chromosome[T]], n: Int)(implicit
+  def evolve[T <: Gene](pop: Array[Chromosome[T]], n: Int = 1)(implicit
     s: Selector[T], f: Fitness[T], x: Xover[T], m: Mutate[T]): Unit =
       (1 to n).foreach { _ =>
         x.crossover(s.select(pop), s.select(pop)).map(m.mutate).foreach { child =>
