@@ -1,2 +1,2 @@
-# genetic-scala-2
-A more idiomatic Scala genetic algorithm TSP solver.
+# genetic-scala
+A idiomatic Scala genetic algorithm with examples.
