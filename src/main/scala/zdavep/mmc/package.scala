@@ -5,7 +5,7 @@ package object mmc {
   import scala.util.Random._
 
   // Round a decimal
-  def round(v: Double) = BigDecimal(v).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+  def round(v: Double): Double = BigDecimal(v).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
 
   // Create a series of coin combinations
   private val pool = for {
