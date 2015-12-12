@@ -2,7 +2,7 @@ package zdavep
 package mmc
 
 object Main extends App {
-  import genetic._, Genetic._
+  import genetic._
 
   implicit val changeAmount = new ChangeAmount {
     def value: Double = 0.41D

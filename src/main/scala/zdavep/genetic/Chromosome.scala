@@ -1,5 +1,7 @@
 package zdavep.genetic
 
+import Genetic.{Fitness, Gene}
+
 /**
  * A potential solution (ordered list of Genes).
  */

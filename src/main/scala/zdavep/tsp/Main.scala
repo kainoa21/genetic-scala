@@ -2,7 +2,7 @@ package zdavep
 package tsp
 
 object Main extends App {
-  import genetic._, Genetic._
+  import genetic._
 
   implicit val tspFileReader = new TspFileReader {
     val tspFile = if (args.length >= 1) args(0).trim else "cities.tsp"

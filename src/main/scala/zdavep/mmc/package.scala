@@ -1,7 +1,7 @@
 package zdavep
 
 package object mmc {
-  import zdavep.genetic._
+  import genetic._, Genetic._
   import scala.util.Random._
 
   //

@@ -4,9 +4,9 @@ package zdavep
  * TSP-specific genetic algorithm values and functions
  */
 package object tsp {
+  import genetic._, Genetic._
   import scala.annotation.tailrec
   import scala.util.Random.nextDouble
-  import zdavep.genetic._
 
   // The radius of earth in miles
   private final val RADIUS_EARTH = 3958.761

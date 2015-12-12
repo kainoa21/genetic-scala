@@ -1,6 +1,7 @@
-package zdavep.tsp
+package zdavep
+package tsp
 
-import zdavep.genetic.Gene
+import genetic._, Genetic._
 
 case class City(name: String, lat: Double, lon: Double) extends Gene {
   override def equals(other: Any): Boolean = other match {

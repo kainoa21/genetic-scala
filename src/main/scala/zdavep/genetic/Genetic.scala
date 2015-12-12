@@ -1,28 +1,50 @@
 package zdavep.genetic
 
 /**
- * Top-level genetic algorithm functions
+ * Top-level genetic algorithm types
  */
 object Genetic {
 
   /**
-   * Initialize a population (search space of potential solutions).
+   * The basic unit of a genetic algorithm.
    */
-  def initPopulation[T <: Gene](initSize: Int, size: Int)(implicit
-      g: Genotype[T], f: Fitness[T]): Array[Chromosome[T]] =
-    (1 to initSize).map(_ => g.random).sortBy(_.fitness).take(size).toArray
+  trait Gene { self =>
+    def copy: Gene = self
+  }
 
   /**
-   * Evolve a population for a single generation.
+   * Fitness function
    */
-  def evolve[T <: Gene](pop: Array[Chromosome[T]], n: Int = 1)(implicit
-    s: Selector[T], f: Fitness[T], x: Xover[T], m: Mutate[T]): Unit =
-      (1 to n).foreach { _ =>
-        x.crossover(s.select(pop), s.select(pop)).map(m.mutate).foreach { child =>
-          val i = scala.util.Random.nextInt(pop.length)
-          if (child.isMoreFit(pop(i))) {
-            pop(i) = child
-          }
-        }
-      }
+  trait Fitness[T <: Gene] {
+    def fitness(c: Chromosome[T]): Double
+    def isMoreFit(a: Chromosome[T], b: Chromosome[T]): Boolean
+  }
+
+  /**
+   * Search space
+   */
+  trait Genotype[T <: Gene] {
+    def random: Chromosome[T]
+  }
+
+  /**
+   * Mutation operation
+   */
+  trait Mutate[T <: Gene] {
+    def mutate(c: Chromosome[T]): Chromosome[T]
+  }
+
+  /**
+   * Selection operator
+   */
+  trait Selector[T <: Gene] {
+    def select(pop: Array[Chromosome[T]]): Chromosome[T]
+  }
+
+  /**
+   * Crossover operation
+   */
+  trait Xover[T <: Gene] {
+    def crossover(c1: Chromosome[T], c2: Chromosome[T]): Array[Chromosome[T]]
+  }
 }
