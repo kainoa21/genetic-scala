@@ -5,13 +5,7 @@ import Genetic.{Fitness, Gene}
 /**
  * A potential solution (ordered list of Genes).
  */
-case class Chromosome[T <: Gene](genes: List[T]) {
-  override def equals(any: Any): Boolean = any match {
-    case c: Chromosome[T] => genes == c.genes
-    case _ => false
-  }
-  override def hashCode: Int = genes.hashCode()
-}
+case class Chromosome[T <: Gene](genes: List[T])
 
 /**
  * Wire fitness behavior into Chromosome.
