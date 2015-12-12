@@ -4,12 +4,12 @@ package object mmc {
   import genetic._, Genetic._
   import scala.util.Random._
 
-  //
+  // Create a series of coin combinations
   private val pool = for {
-    q <- 0 to 3 // max quarters
-    d <- 0 to 2 // max dimes
-    n <- 0 to 1 // max nickels
-    p <- 0 to 4 // max pennies
+    q <- 0 to Quarter.max
+    d <- 0 to Dime.max
+    n <- 0 to Nickel.max
+    p <- 0 to Penny.max
   } yield List(
     Change(q, Quarter), Change(d, Dime), Change(n, Nickel), Change(p, Penny)
   )
