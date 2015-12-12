@@ -4,6 +4,9 @@ package object mmc {
   import genetic._, Genetic._
   import scala.util.Random._
 
+  // Round a decimal
+  def round(v: Double) = BigDecimal(v).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
+
   // Create a series of coin combinations
   private val pool = for {
     q <- 0 to Quarter.max
@@ -26,7 +29,7 @@ package object mmc {
   // value is not found.
   implicit def mmcFitness(implicit amt: ChangeAmount): Fitness[Change] = new Fitness[Change] {
     def fitness(c: Chromosome[Change]): Double = {
-      val value: Double = c.genes.foldLeft(0D)(_ + _.value)
+      val value: Double = round(c.genes.foldLeft(0D)(_ + _.value))
       if (value != amt.value) 100D else c.genes.foldLeft(0)(_ + _.n).toDouble
     }
     def isMoreFit(a: Chromosome[Change], b: Chromosome[Change]): Boolean = fitness(a) < fitness(b)

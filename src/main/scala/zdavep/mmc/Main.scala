@@ -12,7 +12,7 @@ object Main extends App {
 
   genetic.evolve(pop)
   val best = pop.min
-  val total = best.genes.foldLeft(0D)(_ + _.value)
+  val total = round(best.genes.foldLeft(0D)(_ + _.value))
 
   assert(changeAmount.value == total)
   print(s"Solution = ${best.fitness.toInt} coins; " + best.genes.mkString(", ") +
