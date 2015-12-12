@@ -4,7 +4,9 @@ package mmc
 object Main extends App {
 
   implicit val changeAmount = new ChangeAmount {
-    def value: Double = if (args.length >= 1) args(0).trim.toDouble else 0.41D
+    @scala.annotation.tailrec
+    def loop(d: Double): Double = if (d > 1.0) loop(d - 1.0) else round(d)
+    def value: Double = loop(if (args.length >= 1) args(0).trim.toDouble else 0.41D)
   }
 
   val size = 1000
