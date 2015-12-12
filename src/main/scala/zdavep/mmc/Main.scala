@@ -2,16 +2,15 @@ package zdavep
 package mmc
 
 object Main extends App {
-  import genetic._
 
   implicit val changeAmount = new ChangeAmount {
-    def value: Double = 0.41D
+    def value: Double = if (args.length >= 1) args(0).trim.toDouble else 0.41D
   }
 
   val size = 1000
-  val pop = initPopulation(size * 2, size)
+  val pop = genetic.initPopulation(size * 2, size)
 
-  evolve(pop)
+  genetic.evolve(pop)
   val best = pop.min
   val total = best.genes.foldLeft(0D)(_ + _.value)
 
