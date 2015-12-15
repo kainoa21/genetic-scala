@@ -35,14 +35,14 @@ package object tsp {
 
   // Given a city, find it's nearest neighbor
   private def findNearest(city: City, list: List[City]): City =
-    list.map(c => (distance(city, c), c)).sortBy(_._1).head._2
+    list.map(c => (distance(city, c), c)).minBy(_._1)._2
 
   // Nearest neighbor optimization function
   @tailrec
-  private def nearestNeighbor(city: City, src: List[City], dest: List[City]): Chromosome[City] =
-    if (src.isEmpty) Chromosome(dest :+ city) else {
-      val nearest = findNearest(city, src)
-      nearestNeighbor(nearest, src.filterNot(_.equals(nearest)), dest :+ city)
+  private def nearestNeighbor(c: City, src: List[City], dest: List[City] = Nil): Chromosome[City] =
+    if (src.isEmpty) Chromosome(dest :+ c) else {
+      val nearest = findNearest(c, src)
+      nearestNeighbor(nearest, src.filterNot(_ == nearest), dest :+ c)
     }
 
   // TSP genotype - represents the search space of possible tours (lists of cities)
@@ -55,7 +55,7 @@ package object tsp {
     }
 
     def random: Chromosome[City] = shuffle(genePool.map(_.copy)) match {
-      case h :: t => nearestNeighbor(h, t, Nil)
+      case h :: t => nearestNeighbor(h, t)
       case Nil => Chromosome(genePool)
     }
   }
