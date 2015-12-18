@@ -23,3 +23,5 @@ mainClass in Global := Some("zdavep.tsp.Main")
 assemblyJarName in assembly := s"tsp.jar"
 
 addCommandAlias("dist", ";clean;compile;scalastyle;assembly")
+
+scalariformSettings

@@ -28,14 +28,14 @@ object Genetic {
   }
 
   /**
-   * Mutation operation
+   * Mutate operation
    */
   trait Mutate[T <: Gene] {
     def mutate(c: Chromosome[T]): Chromosome[T]
   }
 
   /**
-   * Selection operator
+   * Select operation
    */
   trait Selector[T <: Gene] {
     def select(pop: Array[Chromosome[T]]): Chromosome[T]

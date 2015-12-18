@@ -15,7 +15,7 @@ package object tsp {
   private final val PI_RADS_PER_180_DEG = math.Pi / 180D
 
   // TSP crossover rate
-  private final val XOVER_RATE  = 0.9D
+  private final val XOVER_RATE = 0.9D
 
   // TSP mutation rate
   private final val MUTATE_RATE = 0.1D
