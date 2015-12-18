@@ -18,7 +18,7 @@ object Main extends App {
   @scala.annotation.tailrec
   def loop(generation: Int = 1, bestFitness: Double = Double.MaxValue): Unit =
     if (generation <= maxGenerations) {
-      evolve(pop, offspring)
+      (1 to offspring).foreach { _ => evolve(pop) }
       val currentBest = pop.min
       val currentFitness = currentBest.fitness
       if (currentFitness < bestFitness) {
