@@ -37,7 +37,7 @@ package object mmc {
 
   // Define crossover to just generate two new change amounts at random.
   implicit val mmcXover: Xover[Change] = new Xover[Change] {
-    def crossover(p0: Chromosome[Change], p1: Chromosome[Change]): Array[Chromosome[Change]] =
+    def crossover(p: Array[Chromosome[Change]]): Array[Chromosome[Change]] =
       Array(mmcGenotype.random, mmcGenotype.random)
   }
 
@@ -48,7 +48,16 @@ package object mmc {
 
   // Select a chromosome at random
   implicit val mmcSelector: Selector[Change] = new Selector[Change] {
-    def select(pop: Array[Chromosome[Change]]): Chromosome[Change] = pop(randInt(pop.length))
+    def select(pop: Array[Chromosome[Change]]): Array[Chromosome[Change]] = {
+      val i1 = randInt(pop.length - 1)
+      Array(pop(i1), pop(i1 + 1))
+    }
+  }
+
+  // Insertion operation
+  implicit def mmcInsert(implicit f: Fitness[Change]): Insert[Change] = new Insert[Change] {
+    def insert(c: Chromosome[Change], pop: Array[Chromosome[Change]]): Unit =
+      pop(randInt(pop.length)) = c
   }
 
   // Minimum fitness is best

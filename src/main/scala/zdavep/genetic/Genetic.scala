@@ -38,13 +38,20 @@ object Genetic {
    * Select operation
    */
   trait Selector[T <: Gene] {
-    def select(pop: Array[Chromosome[T]]): Chromosome[T]
+    def select(pop: Array[Chromosome[T]]): Array[Chromosome[T]]
   }
 
   /**
    * Crossover operation
    */
   trait Xover[T <: Gene] {
-    def crossover(c1: Chromosome[T], c2: Chromosome[T]): Array[Chromosome[T]]
+    def crossover(c: Array[Chromosome[T]]): Array[Chromosome[T]]
+  }
+
+  /**
+   * Insert operation
+   */
+  trait Insert[T <: Gene] {
+    def insert(c: Chromosome[T], p: Array[Chromosome[T]]): Unit
   }
 }

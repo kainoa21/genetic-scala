@@ -12,12 +12,6 @@ package object genetic {
   /**
    * Evolve a population for a single generation.
    */
-  def evolve[T <: Gene](p: Array[Chromosome[T]])(implicit s: Selector[T], f: Fitness[T], x: Xover[T], m: Mutate[T]): Unit = {
-    x.crossover(s.select(p), s.select(p)).map(m.mutate).foreach { child =>
-      val i = scala.util.Random.nextInt(p.length)
-      if (child.isMoreFit(p(i))) {
-        p(i) = child
-      }
-    }
-  }
+  def evolve[T <: Gene](p: Array[Chromosome[T]])(implicit s: Selector[T], f: Fitness[T], x: Xover[T], m: Mutate[T], i: Insert[T]): Unit =
+    x.crossover(s.select(p)).map(m.mutate).foreach(i.insert(_, p))
 }

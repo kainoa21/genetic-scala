@@ -72,8 +72,9 @@ package object tsp {
 
   // TSP crossover - split two chromosomes at a single index and cross combine
   implicit val tspXover: Xover[City] = new Xover[City] {
-    def crossover(p0: Chromosome[City], p1: Chromosome[City]): Array[Chromosome[City]] =
+    def crossover(p: Array[Chromosome[City]]): Array[Chromosome[City]] =
       if (nextDouble > XOVER_RATE) Array.empty[Chromosome[City]] else {
+        val (p0, p1) = (p(0), p(1))
         val len = p0.genes.length
         val c0 = p0.genes.splitAt(randInt(len * 2 / 3, len / 3))._1
         val c1 = p1.genes diff c0
@@ -91,9 +92,22 @@ package object tsp {
     }
   }
 
-  // TSP selection - select a chromosome at random
+  // TSP selection - select two chromosomes at random
   implicit val tspSelector: Selector[City] = new Selector[City] {
-    def select(pop: Array[Chromosome[City]]): Chromosome[City] = pop(randInt(pop.length))
+    def select(pop: Array[Chromosome[City]]): Array[Chromosome[City]] = {
+      val i1 = randInt(pop.length - 1)
+      Array(pop(i1), pop(i1 + 1))
+    }
+  }
+
+  // Insertion operation
+  implicit def tspInsert(implicit f: Fitness[City]): Insert[City] = new Insert[City] {
+    def insert(c: Chromosome[City], pop: Array[Chromosome[City]]): Unit = {
+      val i = randInt(pop.length)
+      if (f.fitness(c) < f.fitness(pop(i))) {
+        pop(i) = c
+      }
+    }
   }
 
   // TSP ordering - minimum fitness is best.
