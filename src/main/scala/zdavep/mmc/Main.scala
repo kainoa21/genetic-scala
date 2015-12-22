@@ -10,7 +10,7 @@ object Main extends App {
   }
 
   val size = 1000
-  val pop = genetic.initPopulation(size * 2, size)
+  val pop = genetic.init(size * 2, size)
 
   genetic.evolve(pop)
   val best = pop.min

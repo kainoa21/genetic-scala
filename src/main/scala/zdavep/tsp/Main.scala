@@ -2,7 +2,6 @@ package zdavep
 package tsp
 
 object Main extends App {
-  import genetic._
 
   implicit val tspFileReader = new TspFileReader {
     val tspFile = if (args.length >= 1) args(0).trim else "cities.tsp"
@@ -13,12 +12,12 @@ object Main extends App {
   val size = 1000
   val initialSize = size * 2
   val maxGenerations = 2500
-  val pop = initPopulation(initialSize, size)
+  val pop = genetic.init(initialSize, size)
 
   @scala.annotation.tailrec
   def loop(generation: Int = 1, bestFitness: Double = Double.MaxValue): Unit =
     if (generation <= maxGenerations) {
-      (1 to offspring).foreach { _ => evolve(pop) }
+      (1 to offspring).foreach { _ => genetic.evolve(pop) }
       val currentBest = pop.min
       val currentFitness = currentBest.fitness
       if (currentFitness < bestFitness) {
