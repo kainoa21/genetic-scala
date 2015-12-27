@@ -1,4 +1,5 @@
-package zdavep.tsp
+package zdavep
+package tsp
 
 object Main extends App {
 
