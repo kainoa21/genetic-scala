@@ -94,13 +94,12 @@ package object tsp {
 
   // TSP selection - select two chromosomes at random
   implicit val tspSelector: Selector[City] = new Selector[City] {
-    def select(pop: Array[Chromosome[City]]): Array[Chromosome[City]] = {
-      val i1 = randInt(pop.length - 1)
-      Array(pop(i1), pop(i1 + 1))
-    }
+    def select(pop: Array[Chromosome[City]]): Array[Chromosome[City]] = Array(
+      pop(randInt(pop.length)), pop(randInt(pop.length))
+    )
   }
 
-  // Insertion operation
+  // TSP Insertion - Replace random existing solution if child has better fitness.
   implicit def tspInsert(implicit f: Fitness[City]): Insert[City] = new Insert[City] {
     def insert(c: Chromosome[City], pop: Array[Chromosome[City]]): Unit = {
       val i = randInt(pop.length)
