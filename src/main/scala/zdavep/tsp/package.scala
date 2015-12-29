@@ -93,7 +93,7 @@ package object tsp {
   }
 
   // TSP selection - select two chromosomes at random
-  implicit val tspSelector: Selector[City] = new Selector[City] {
+  implicit val tspSelect: Select[City] = new Select[City] {
     def select(pop: Array[Chromosome[City]]): Array[Chromosome[City]] = Array(
       pop(randInt(pop.length)), pop(randInt(pop.length))
     )

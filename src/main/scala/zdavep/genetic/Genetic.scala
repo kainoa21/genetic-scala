@@ -37,7 +37,7 @@ object Genetic {
   /**
    * Select operation
    */
-  trait Selector[T <: Gene] {
+  trait Select[T <: Gene] {
     def select(pop: Array[Chromosome[T]]): Array[Chromosome[T]]
   }
 

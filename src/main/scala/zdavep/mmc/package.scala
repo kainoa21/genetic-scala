@@ -49,8 +49,8 @@ package object mmc {
     override def mutate(c: Chromosome[Change]): Chromosome[Change] = c
   }
 
-  // Select a chromosome at random
-  implicit val mmcSelector: Selector[Change] = new Selector[Change] {
+  // Select two adjacent chromosomes at random
+  implicit val mmcSelect: Select[Change] = new Select[Change] {
     def select(pop: Array[Chromosome[Change]]): Array[Chromosome[Change]] = {
       val i1 = randInt(pop.length - 1)
       Array(pop(i1), pop(i1 + 1))
