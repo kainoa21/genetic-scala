@@ -39,9 +39,7 @@ package object mmc {
 
   // Define crossover to just generate one new change amount at random.
   implicit val mmcXover: Xover[Change] = new Xover[Change] {
-    def crossover(p: Array[Chromosome[Change]]): Array[Chromosome[Change]] = Array(
-      mmcGenotype.random
-    )
+    def crossover(p: Array[Chromosome[Change]]): Array[Chromosome[Change]] = Array(mmcGenotype.random)
   }
 
   // No mutation, just return the original amount of change
@@ -52,8 +50,8 @@ package object mmc {
   // Select two adjacent chromosomes at random
   implicit val mmcSelect: Select[Change] = new Select[Change] {
     def select(pop: Array[Chromosome[Change]]): Array[Chromosome[Change]] = {
-      val i1 = randInt(pop.length - 1)
-      Array(pop(i1), pop(i1 + 1))
+      val i = randInt(pop.length - 1)
+      Array(pop(i), pop(i + 1))
     }
   }
 
