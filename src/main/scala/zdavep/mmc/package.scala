@@ -37,10 +37,10 @@ package object mmc {
     def isMoreFit(a: Chromosome[Change], b: Chromosome[Change]): Boolean = fitness(a) < fitness(b)
   }
 
-  // Define crossover to just generate two new change amounts at random.
+  // Define crossover to just generate one new change amount at random.
   implicit val mmcXover: Xover[Change] = new Xover[Change] {
     def crossover(p: Array[Chromosome[Change]]): Array[Chromosome[Change]] = Array(
-      mmcGenotype.random, mmcGenotype.random
+      mmcGenotype.random
     )
   }
 
