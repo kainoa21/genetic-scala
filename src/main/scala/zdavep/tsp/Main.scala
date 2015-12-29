@@ -21,19 +21,18 @@ object Main extends App {
 
   // Tail-recursive evolution function
   @scala.annotation.tailrec
-  def loop(generation: Int = 1, bestFitness: Double = Double.MaxValue): Unit =
-    if (generation <= maxGenerations) {
-      (1 to offspring).foreach { _ => genetic.evolve(pop) }
-      val currentBest = pop.min
-      val currentFitness = currentBest.fitness
-      if (currentFitness < bestFitness) {
-        print(s"Best fitness found = $currentFitness at generation $generation\n")
-        print(currentBest.genes.mkString(" -> ") + "\n\n")
-        loop(generation + 1, currentFitness)
-      } else {
-        loop(generation + 1, bestFitness)
-      }
+  def loop(generation: Int = 1, bestFitness: Double = Double.MaxValue): Unit = if (generation <= maxGenerations) {
+    (1 to offspring).foreach { _ => genetic.evolve(pop) }
+    val currentBest = pop.min
+    val currentFitness = currentBest.fitness
+    if (currentFitness < bestFitness) {
+      print(s"Best fitness found = $currentFitness at generation $generation\n")
+      print(currentBest.genes.mkString(" -> ") + "\n\n")
+      loop(generation + 1, currentFitness)
+    } else {
+      loop(generation + 1, bestFitness)
     }
+  }
 
   // Start evolving
   loop()
