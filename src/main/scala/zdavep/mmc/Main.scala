@@ -20,9 +20,9 @@ object Main extends App {
   // Only need to evolve once
   genetic.evolve(pop)
   val best = pop.min
-  val total = round(best.genes.foldLeft(0D)(_ + _.value))
+  val total = round(best.foldLeft(0D)(_ + _.value))
 
   // Print the optimal amount of change
   assert(changeAmount.value == total)
-  print(s"Solution = ${best.fitness.toInt} coins; " + best.genes.mkString(", ") + " = $" + total + "\n")
+  print(s"Solution = ${best.foldLeft(0)(_ + _.n)} coins; " + best.mkString(", ") + " = $" + total + "\n")
 }

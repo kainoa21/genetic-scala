@@ -13,11 +13,15 @@ object Genetic {
   }
 
   /**
+   * A potential solution (ordered list of Genes).
+   */
+  type Chromosome[T <: Gene] = List[T]
+
+  /**
    * Fitness function
    */
   trait Fitness[T <: Gene] {
     def fitness(c: Chromosome[T]): Double
-    def isMoreFit(a: Chromosome[T], b: Chromosome[T]): Boolean
   }
 
   /**

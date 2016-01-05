@@ -7,7 +7,7 @@ package object genetic {
    * Initialize a population (search space of potential solutions).
    */
   def init[T <: Gene](initSize: Int, size: Int)(implicit g: Genotype[T], f: Fitness[T]): Array[Chromosome[T]] =
-    (1 to initSize).map(_ => g.random).sortBy(_.fitness).take(size).toArray
+    (1 to initSize).map(_ => g.random).sortBy(f.fitness).take(size).toArray
 
   /**
    * Evolve a population for a single generation.

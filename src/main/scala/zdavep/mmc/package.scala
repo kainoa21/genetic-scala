@@ -25,16 +25,15 @@ package object mmc {
 
   // Choose a change amount at random
   implicit val mmcGenotype: Genotype[Change] = new Genotype[Change] {
-    def random: Chromosome[Change] = Chromosome(pool(randInt(pool.length)))
+    def random: Chromosome[Change] = pool(randInt(pool.length))
   }
 
   // Determine the fitness of an amount of change. Score is penalized if the exact target change value is not found.
   implicit def mmcFitness(implicit amt: ChangeAmount): Fitness[Change] = new Fitness[Change] {
     def fitness(c: Chromosome[Change]): Double = {
-      val value: Double = round(c.genes.foldLeft(0D)(_ + _.value))
-      if (value != amt.value) 100D else c.genes.foldLeft(0)(_ + _.n).toDouble
+      val value: Double = round(c.foldLeft(0D)(_ + _.value))
+      if (value != amt.value) 100D else c.foldLeft(0)(_ + _.n).toDouble
     }
-    def isMoreFit(a: Chromosome[Change], b: Chromosome[Change]): Boolean = fitness(a) < fitness(b)
   }
 
   // Define crossover to just generate one new change amount at random.

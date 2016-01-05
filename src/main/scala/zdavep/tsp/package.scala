@@ -40,7 +40,7 @@ package object tsp {
   // Nearest neighbor optimization function
   @tailrec
   private def nearestNeighbor(c: City, src: List[City], dest: List[City] = Nil): Chromosome[City] =
-    if (src.isEmpty) Chromosome(dest :+ c) else {
+    if (src.isEmpty) dest :+ c else {
       val nearest = findNearest(c, src)
       nearestNeighbor(nearest, src.filterNot(_ == nearest), dest :+ c)
     }
@@ -56,7 +56,7 @@ package object tsp {
 
     def random: Chromosome[City] = shuffle(genePool.map(_.copy)) match {
       case h :: t => nearestNeighbor(h, t)
-      case Nil => Chromosome(genePool)
+      case Nil => genePool
     }
   }
 
@@ -66,8 +66,7 @@ package object tsp {
       case h :: t => if (t.isEmpty) acc else calc(t, acc + distance(h, t.head))
       case Nil => acc
     }
-    def fitness(c: Chromosome[City]): Double = calc(c.genes, distance(c.genes.last, c.genes.head))
-    def isMoreFit(a: Chromosome[City], b: Chromosome[City]): Boolean = fitness(a) < fitness(b)
+    def fitness(c: Chromosome[City]): Double = calc(c, distance(c.last, c.head))
   }
 
   // TSP crossover - split two chromosomes at a single index and cross combine
@@ -75,20 +74,20 @@ package object tsp {
     def crossover(p: Array[Chromosome[City]]): Array[Chromosome[City]] =
       if (nextDouble > XOVER_RATE) Array.empty[Chromosome[City]] else {
         val (p0, p1) = (p(0), p(1))
-        val len = p0.genes.length
-        val c0 = p0.genes.splitAt(randInt(len * 2 / 3, len / 3))._1
-        val c1 = p1.genes diff c0
-        Array(Chromosome(c0 ++ c1), Chromosome(c1 ++ c0))
+        val len = p0.length
+        val c0 = p0.splitAt(randInt(len * 2 / 3, len / 3))._1
+        val c1 = p1 diff c0
+        Array(c0 ++ c1, c1 ++ c0)
       }
   }
 
   // TSP mutation - reverse an internal slice of a tour
   implicit val tspMutate: Mutate[City] = new Mutate[City] {
     def mutate(c: Chromosome[City]): Chromosome[City] = if (nextDouble > MUTATE_RATE) c else {
-      val l1 = c.genes.length
+      val l1 = c.length
       val l2 = l1 / 2
       val (i1, i2) = (randInt(l2), randInt(l1, l2))
-      Chromosome(c.genes.take(i1) ++ c.genes.slice(i1, i2).reverse ++ c.genes.drop(i2))
+      c.take(i1) ++ c.slice(i1, i2).reverse ++ c.drop(i2)
     }
   }
 

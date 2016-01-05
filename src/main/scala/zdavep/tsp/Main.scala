@@ -24,10 +24,10 @@ object Main extends App {
   def loop(generation: Int = 1, bestFitness: Double = Double.MaxValue): Unit = if (generation <= maxGenerations) {
     (1 to offspring).foreach { _ => genetic.evolve(pop) }
     val currentBest = pop.min
-    val currentFitness = currentBest.fitness
+    val currentFitness = tspFitness.fitness(currentBest)
     if (currentFitness < bestFitness) {
       print(s"Best fitness found = $currentFitness at generation $generation\n")
-      print(currentBest.genes.mkString(" -> ") + "\n\n")
+      print(currentBest.mkString(" -> ") + "\n\n")
       loop(generation + 1, currentFitness)
     } else {
       loop(generation + 1, bestFitness)
